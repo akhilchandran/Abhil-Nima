@@ -3,17 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Abhil &amp; Nima — Wedding Invitation</title>
-<meta name="description" content="Wedding invitation of Abhil &amp; Nima — 12 December 2026. Tap the cover to open the invitation.">
+<title>Abhil Weds Nima — Wedding Invitation</title>
+<meta name="description" content="Join us as we celebrate our wedding on Saturday, 12 December 2026. Tap to open the invitation &amp; view venue details.">
+<link rel="canonical" href="https://12-12-26.in/">
+
+<!-- Open Graph / WhatsApp / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Abhil &amp; Nima | Wedding Invitation">
-<meta property="og:description" content="12 December 2026 • Tap to open our wedding invitation and view locations.">
-<meta property="og:image" content="preview.jpg">
+<meta property="og:site_name" content="Abhil Weds Nima">
+<meta property="og:url" content="https://12-12-26.in/">
+<meta property="og:title" content="Abhil Weds Nima — Wedding Invitation">
+<meta property="og:description" content="Join us as we celebrate our wedding on Saturday, 12 December 2026. Tap to open the invitation &amp; view venue details.">
+<meta property="og:image" content="https://12-12-26.in/preview.jpg">
+<meta property="og:image:secure_url" content="https://12-12-26.in/preview.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="900">
 <meta property="og:image:height" content="1200">
+
+<!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Abhil &amp; Nima | Wedding Invitation">
-<meta name="twitter:image" content="preview.jpg">
+<meta name="twitter:url" content="https://12-12-26.in/">
+<meta name="twitter:title" content="Abhil Weds Nima — Wedding Invitation">
+<meta name="twitter:description" content="Join us as we celebrate our wedding on Saturday, 12 December 2026. Tap to open the invitation &amp; view venue details.">
+<meta name="twitter:image" content="https://12-12-26.in/preview.jpg">
+
 <link rel="preload" as="image" href="background.jpg">
 <link rel="preload" as="image" href="cover.jpg">
 <link rel="preload" as="image" href="invitation_2.jpg">
@@ -58,12 +70,12 @@ body{
   pointer-events:none;
   z-index:2;
   transition:
-    opacity .65s ease .55s,
-    top 1.55s cubic-bezier(.22,.82,.25,1) 2.2s,
-    left 1.55s cubic-bezier(.22,.82,.25,1) 2.2s,
-    right 1.55s cubic-bezier(.22,.82,.25,1) 2.2s,
-    bottom 1.55s cubic-bezier(.22,.82,.25,1) 2.2s,
-    z-index 0s linear 2.15s;
+    opacity .45s ease .85s,
+    top 1.55s cubic-bezier(.22,.82,.25,1) calc(var(--dur) * .47),
+    left 1.55s cubic-bezier(.22,.82,.25,1) calc(var(--dur) * .47),
+    right 1.55s cubic-bezier(.22,.82,.25,1) calc(var(--dur) * .47),
+    bottom 1.55s cubic-bezier(.22,.82,.25,1) calc(var(--dur) * .47),
+    z-index 0s linear calc(var(--dur) * .5 - .05s);
 }
 #inside img{width:100%;height:100%;object-fit:contain;display:block}
 
@@ -242,15 +254,20 @@ body{
 }
 .card.used .flap{animation:none!important}
 
-/* Golden sparkles */
-.sparkle{
-  position:absolute;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:6;
-  background:radial-gradient(circle,#fff6d6 0%,#e6b85c 45%,transparent 70%);
-  animation:spark 2s ease-out forwards;
+/* Flap-sourced dot craters */
+.dot-crater{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:6;
+  background:var(--dot-bg,radial-gradient(circle,#fff6d6 0%,#e6b85c 50%,transparent 75%));
+  box-shadow:0 0 10px rgba(230,184,92,.45);
+  animation:dotCrater 1.75s cubic-bezier(.16,.84,.3,1) forwards;
 }
-@keyframes spark{
-  0%{transform:translate(0,0) scale(.4);opacity:1}
-  100%{transform:translate(var(--x),var(--y)) scale(1.4);opacity:0}
+@keyframes dotCrater{
+  0%{transform:translate(0,0) scale(.35);opacity:0}
+  18%{opacity:1}
+  100%{transform:translate(var(--x),var(--y)) scale(1.65);opacity:0}
 }
 
 .hint{
@@ -324,23 +341,57 @@ body{
     focusables.forEach(function(el){el.tabIndex=on?0:-1});
   }
 
-  function sparkles(){
+  function dotCratersOnGo(){
     if(reduce)return;
     var r=card.getBoundingClientRect();
-    var envLeft=r.width*0.14;
-    var envWidth=r.width*0.72;
     var seamY=r.height*0.490833;
+    var topFlapRect={
+      left:r.width*0.103333,
+      width:r.width*0.793334,
+      top:r.height*0.2300,
+      height:r.height*0.260833
+    };
+    var botFlapRect={
+      left:r.width*0.103333,
+      width:r.width*0.793334,
+      top:r.height*0.490833,
+      height:r.height*0.298367
+    };
+
     for(var i=0;i<72;i++){
-      var s=document.createElement('span');
-      s.className='sparkle';
-      s.style.left=(envLeft+Math.random()*envWidth-3)+'px';
-      s.style.top=(seamY-3)+'px';
-      var a=Math.random()*Math.PI*2, d=18+Math.random()*(envWidth*0.28);
-      s.style.setProperty('--x',Math.cos(a)*d+'px');
-      s.style.setProperty('--y',Math.sin(a)*d+'px');
-      s.style.animationDelay=(Math.random()*0.45)+'s';
-      card.appendChild(s);
-      setTimeout(function(el){el.remove()},2100,s);
+      var fromTop=i%2===0;
+      var box=fromTop?topFlapRect:botFlapRect;
+      var dot=document.createElement('span');
+      dot.className='dot-crater';
+
+      var size=5+Math.random()*6;
+      var startX=box.left+Math.random()*box.width;
+      var startY=box.top+Math.random()*box.height;
+
+      dot.style.width=size+'px';
+      dot.style.height=size+'px';
+      dot.style.left=(startX-size/2)+'px';
+      dot.style.top=(startY-size/2)+'px';
+
+      dot.style.setProperty(
+        '--dot-bg',
+        fromTop
+          ? 'radial-gradient(circle,#fff7dc 0%,#f2c99e 48%,#cfa052 76%,transparent 100%)'
+          : 'radial-gradient(circle,#fff3d1 0%,#e6b78a 48%,#b9883d 76%,transparent 100%)'
+      );
+
+      var angle=fromTop
+        ? (-Math.PI*0.85 + Math.random()*Math.PI*0.7)
+        : (Math.PI*0.15 + Math.random()*Math.PI*0.7);
+      var dist=24+Math.random()*(r.width*0.34);
+      var dx=Math.cos(angle)*dist;
+      var dy=Math.sin(angle)*dist + (fromTop ? (seamY-startY)*0.25 : (seamY-startY)*0.15);
+
+      dot.style.setProperty('--x',dx+'px');
+      dot.style.setProperty('--y',dy+'px');
+      dot.style.animationDelay=(Math.random()*.45)+'s';
+      card.appendChild(dot);
+      setTimeout(function(el){el.remove()},2300,dot);
     }
   }
 
@@ -355,8 +406,8 @@ body{
       requestAnimationFrame(function(){
         card.classList.add('open');
         setInsideFocusable(true);
-        setTimeout(sparkles,350);
-        animTimer=setTimeout(function(){animating=false;},3800);
+        dotCratersOnGo();
+        animTimer=setTimeout(function(){animating=false;},3200);
       });
     });
   }
